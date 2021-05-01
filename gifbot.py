@@ -1,10 +1,12 @@
 import re
-
+import json
 import discord
 
 
 client = discord.Client()
-commands = {}
+
+with open("./commands.json") as f:
+    commands = json.load(f)
 
 
 @client.event
@@ -14,6 +16,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    #ignore own messages
     if message.author == client.user:
         return
     print("message received")
@@ -26,6 +29,9 @@ async def on_message(message):
         shortcut = ";" + re.search(pattern, message.content).group(1) + ";"
         #save the shortcut in our dictionary with the attachment url
         commands[shortcut] = message.attachments[0].url
+        #dump commands into commands.json to maintain state if server goes down
+        with open("./commands.json", "w") as commands_file:
+            json.dump(commands, commands_file);
         await message.channel.send('Shortcut saved, type ' + shortcut + ' to send:')
         await message.channel.send(commands[shortcut])
 
