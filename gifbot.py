@@ -61,5 +61,5 @@ async def on_message(message):
             video_embed.set_thumbnail(url=video_thumbnail)
             await message.channel.send(embed=video_embed)
 
-
-client.run("ODMyMzU3NzkzOTg0OTM4MDM0.YHinmg.19XKG_UtbRUDt4GfLB2aQUkicNs")
+#Add Discord Bot Token here
+client.run("")
